@@ -138,6 +138,8 @@ map.on('click', function(e) {
         }];
 
         var ctx = document.getElementById("chart").getContext("2d");
+        // Documentation to make Line graph with chart.js. 
+        // http://www.chartjs.org/docs/#line-chart-introduction
         var myNewChart = new Chart(ctx).Pie(pieData);
     });
 });

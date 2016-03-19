@@ -1,0 +1,4 @@
+1) Flashing Icons for better visibility. // Krystina
+2) Provide better information (graph labels) with a Line chart. // Sherman
+3) Make pretty mockup/wireframe of the website. // Krystina
+4) Add sidebar with graph data, title, upload btn, "Instructions" btn. // Sherman
