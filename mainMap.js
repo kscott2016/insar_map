@@ -14,10 +14,12 @@ mapboxgl.accessToken = "pk.eyJ1Ijoia2pqajExMjIzMzQ0IiwiYSI6ImNpbDJqYXZ6czNjdWd2e
 // the map
 var map = new mapboxgl.Map({
     container: 'map-container', // container id
-    style: 'mapbox://styles/mapbox/streets-v8', //stylesheet location
-    center: [150, -43], // starting position
+    style: 'style.json', //stylesheet location
+    center: [-74.50, 40], // starting position
     zoom: 9 // starting zoom
 });
+
+map.addControl(new mapboxgl.Navigation());
 
 // function to use AJAX to load json from this same website - I looked online and AJAX is basically just used
 // to asynchronously load data using javascript from a server, in our case, our local website
@@ -51,9 +53,14 @@ map.once("load", function load() {
         for (var i = 0; i < geodata.features.length; i++) {
             // set title
             geodata.features[i].properties.title = "\"" + i + "\"";
-            geodata.features[i].properties["marker-color"] = "#fc4353";
-            geodata.features[i].properties["marker-color"] = "#fc4353";
-            geodata.features[i].properties["marker-symbol"] = "rocket";
+            geodata.features[i].properties["marker-color"] = "#09A5FF";
+            if (i % 3 == 0) {
+	            geodata.features[i].properties["marker-symbol"] = "greenMarker";
+            } else if (i % 3 == 1) {
+	            geodata.features[i].properties["marker-symbol"] = "redMarker";
+            } else {
+            	geodata.features[i].properties["marker-symbol"] = "yellowMarker";	
+            }
 
             geoDataMap[geodata.features[i].properties.title] = geodata.features[i];
         }
@@ -77,7 +84,7 @@ map.once("load", function load() {
             "type": "symbol",
             "source": "markers",
             "layout": {
-                "icon-image": "{marker-symbol}-15", // stuff in {} gets replaced by the corresponding value
+                "icon-image": "{marker-symbol}", // stuff in {} gets replaced by the corresponding value
                 "icon-allow-overlap": true,
                 "icon-size": 1 // size of the icon
             }
@@ -110,7 +117,7 @@ map.on('click', function(e) {
         // different one before showing it's information in a popup.
         var actualFeature = geoDataMap[title];
 
-        actualFeature.properties["marker-symbol"] = "harbor";
+        actualFeature.properties["marker-symbol"] = "yellowMarker";
         actualFeature.properties["marker-color"] = "#ff8888";
 
         geoJSONSource.setData(geodata);
@@ -138,8 +145,6 @@ map.on('click', function(e) {
         }];
 
         var ctx = document.getElementById("chart").getContext("2d");
-        // Documentation to make Line graph with chart.js.
-        // http://www.chartjs.org/docs/#line-chart-introduction
         var myNewChart = new Chart(ctx).Pie(pieData);
     });
 });
@@ -165,8 +170,8 @@ map.on('zoomend', function() {
     // not be available for: use javascript comparisons like < and > if
     // you want something other than just one zoom level, like
     // (map.getZoom > 10)
-
-    if (map.getZoom() < 3) {
+    console.log(map.getZoom());
+    if (map.getZoom() < 9) {
         // remove the old layer with large markers and add a new one with small markers
         map.removeLayer("markers");
         map.addLayer({
@@ -175,9 +180,9 @@ map.on('zoomend', function() {
             "type": "symbol",
             "source": "markers",
             "layout": {
-                "icon-image": "{marker-symbol}-15",
+                "icon-image": "{marker-symbol}",
                 "icon-allow-overlap": true,
-                "icon-size": 0.2 // notice the new, smaller size at higher zoom levels
+                "icon-size": 0.14 // notice the new, smaller size at higher zoom levels
             }
         });
     } else {
@@ -192,7 +197,7 @@ map.on('zoomend', function() {
             "type": "symbol",
             "source": "markers",
             "layout": {
-                "icon-image": "{marker-symbol}-15",
+                "icon-image": "{marker-symbol}",
                 "icon-allow-overlap": true,
                 "icon-size": 1 // notice the bigger size at smaller zoom levels.
             }
