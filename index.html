@@ -23,15 +23,22 @@
       <div class="side-item-box">
         <!--div class="side-item move-button"></div-->
         <div class="side-item title">
-          <h1>Title of Application</h1>
+          <h1>InSAR Map</h1>
         </div>
         <div class="side-item description">
           <p>Description of inSAR map web application.</p>
         </div>
-        <div class="side-item graph"></div>
+        <div class="side-item graph">
+          <canvas id='chart'></canvas>
+        </div>
         <div class="side-item upload-button">
-          <label>Upload H5 file here: </label>
-          <input type="file" accept="h5" id="input">
+          <form method="post">
+            <label>Upload H5 file here: </label>
+            <br />
+            <input type="file" accept="h5" id="input">
+            <br />
+            <button type="submit">Upload</button>
+          </form>
         </div>
       </div> <!-- End side-item-box -->
     </div> <!-- End side-bar -->

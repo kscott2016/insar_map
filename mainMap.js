@@ -59,7 +59,7 @@ map.once("load", function load() {
             } else if (i % 3 == 1) {
 	            geodata.features[i].properties["marker-symbol"] = "redMarker";
             } else {
-            	geodata.features[i].properties["marker-symbol"] = "yellowMarker";	
+            	geodata.features[i].properties["marker-symbol"] = "yellowMarker";
             }
 
             geoDataMap[geodata.features[i].properties.title] = geodata.features[i];
@@ -117,20 +117,21 @@ map.on('click', function(e) {
         // different one before showing it's information in a popup.
         var actualFeature = geoDataMap[title];
 
-        actualFeature.properties["marker-symbol"] = "yellowMarker";
+        //actualFeature.properties["marker-symbol"] = "yellowMarker";
         actualFeature.properties["marker-color"] = "#ff8888";
 
         geoJSONSource.setData(geodata);
 
         // Populate the popup and set its coordinates
         // based on the feature found.
-        /*popup.setLngLat(feature.geometry.coordinates)
+      /*  popup.setLngLat(feature.geometry.coordinates)
             .setHTML("lat " + feature.geometry.coordinates[1] + ", long " + feature.geometry.coordinates[0])
             .addTo(map);*/
-        popup.setLngLat(feature.geometry.coordinates)
+        /*popup.setLngLat(feature.geometry.coordinates)
             .setHTML("<div id='chartDiv'><canvas id='chart'></canvas></div>")
-            .addTo(map);
-        var pieData = [{
+            .addTo(map);*/
+
+        /*var pieData = [{
             value: 20,
             color: "#878BB6"
         }, {
@@ -142,10 +143,29 @@ map.on('click', function(e) {
         }, {
             value: 30,
             color: "#FFEA88"
-        }];
+        }];*/
+
+        var lineData = {
+          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          datasets: [
+            {
+              label: "My Second dataset",
+              fillColor: "rgba(151,187,205,0.2)",
+              strokeColor: "rgba(151,187,205,1)",
+              pointColor: "rgba(151,187,205,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(151,187,205,1)",
+              data: [28, 48, 40, 19, 86, 27, 90]
+            }
+          ]
+        };
+
+        var options = {};
 
         var ctx = document.getElementById("chart").getContext("2d");
-        var myNewChart = new Chart(ctx).Pie(pieData);
+        var lineChart = new Chart(ctx).Line(lineData, options);
+        //var myNewChart = new Chart(ctx).Pie(pieData);
     });
 });
 
@@ -182,7 +202,7 @@ map.on('zoomend', function() {
             "layout": {
                 "icon-image": "{marker-symbol}",
                 "icon-allow-overlap": true,
-                "icon-size": 0.14 // notice the new, smaller size at higher zoom levels
+                "icon-size": 0.42 // notice the new, smaller size at higher zoom levels
             }
         });
     } else {
@@ -199,7 +219,7 @@ map.on('zoomend', function() {
             "layout": {
                 "icon-image": "{marker-symbol}",
                 "icon-allow-overlap": true,
-                "icon-size": 1 // notice the bigger size at smaller zoom levels.
+                "icon-size": 0.84 // notice the bigger size at smaller zoom levels.
             }
         });
     }

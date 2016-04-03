@@ -16,8 +16,8 @@ body {
 .side-bar {
   float: left;
   height: 100%;
-  width: 33%;
-  background-color: white;
+  width: 25%;
+  background-color: #F0F8FF;
   z-index: 10;
 }
 
@@ -35,12 +35,23 @@ body {
   background-color: black;
 }
 
-.side-item.title, .side-item.upload-button, .side-item.description {
-  background-color: white;
+.side-item.title, .side-item.upload-button, .side-item.description, .side-item.graph {
+  background-color: #F0F8FF;
+}
+
+.side-item canvas#chart {
+  width: 100%;
+  height: 100%;
 }
 
 .side-item.graph {
   height: 250px;
+  border: 1px solid black;
+  padding: 0.25em;
+}
+
+form {
+  line-height: 2;
 }
 
 .move-button {
@@ -49,7 +60,7 @@ body {
 }
 
 #map-container {
-	width: 67%;
+	width: 75%;
 	height: 100%;
 	/*position: absolute;*/
   z-index: 0;
