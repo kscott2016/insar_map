@@ -9,8 +9,8 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 }).addTo(map);*/
 
 
-function Map(loadJSONFunc) {
-	// my mapbox api key
+function Map(loadJSONFunc, clustered) {
+    // my mapbox api key
     mapboxgl.accessToken = "pk.eyJ1Ijoia2pqajExMjIzMzQ0IiwiYSI6ImNpbDJqYXZ6czNjdWd2eW0zMTA2aW1tNXUifQ.cPofQqq5jqm6l4zix7k6vw";
     // the map
     this.map = null;
@@ -56,7 +56,10 @@ function Map(loadJSONFunc) {
                 // a fast webgl (I think) geoJSON layer which will hopefully allow us to add millions of points
                 // with little performance hit
                 geoJSONSource = new mapboxgl.GeoJSONSource({
-                    data: geodata
+                    data: geodata,
+                    cluster: that.clustered,
+                    clusterMaxZoom: 14, // Max zoom to cluster points on
+                    clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
                 });
 
                 // IGNORE add in our markers
@@ -77,6 +80,58 @@ function Map(loadJSONFunc) {
                         "icon-size": 1 // size of the icon
                     }
                 });
+
+                if (clustered) {
+                    // Use the earthquakes source to create five layers:
+                    // One for non-clustered markers, three for each cluster category,
+                    // and one for cluster labels.
+                    that.map.addLayer({
+                        "id": "non-cluster-markers",
+                        "type": "symbol",
+                        "source": "markers",
+                        "layout": {
+                            "icon-image": "marker-15"
+                        }
+                    });
+
+                    // Display the earthquake data in three layers, each filtered to a range of
+                    // count values. Each range gets a different fill color.
+                    var layers = [
+                        [150, '#f28cb1'],
+                        [20, '#f1f075'],
+                        [0, '#51bbd6']
+                    ];
+
+                    layers.forEach(function(layer, i) {
+                        that.map.addLayer({
+                            "id": "cluster-" + i,
+                            "type": "circle",
+                            "source": "markers",
+                            "paint": {
+                                "circle-color": layer[1],
+                                "circle-radius": 18
+                            },
+                            "filter": i == 0 ? [">=", "point_count", layer[0]] : ["all", [">=", "point_count", layer[0]],
+                                ["<", "point_count", layers[i - 1][0]]
+                            ]
+                        });
+                    });
+
+                    // Add a layer for the clusters' count labels
+                    that.map.addLayer({
+                        "id": "cluster-count",
+                        "type": "symbol",
+                        "source": "markers",
+                        "layout": {
+                            "text-field": "{point_count}",
+                            "text-font": [
+                                "DIN Offc Pro Medium",
+                                "Arial Unicode MS Bold"
+                            ],
+                            "text-size": 12
+                        }
+                    });
+                }
             });
         });
 
@@ -228,5 +283,5 @@ function loadJSON(callback) {
     xobj.send(null);
 }
 
-var myMap = new Map(loadJSON);
+var myMap = new Map(loadJSON, false);
 myMap.addMapToPage("map-container");
