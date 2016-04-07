@@ -7,9 +7,16 @@
     <!--jQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <!--leaflet-->
+    
+    
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.3/mapbox-gl.js'></script>
-    <!--script src='/geojson-vt-dev.js'></script-->
+  <!--<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="jquery-2.2.2.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-1.12.2.js"></script>
+   <script src='/geojson-vt-dev.js'></script>
+    <script type="text/javascript" src='scripts.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.3/mapbox-gl.css' rel='stylesheet' />
@@ -23,22 +30,67 @@
       <div class="side-item-box">
         <!--div class="side-item move-button"></div-->
         <div class="side-item title">
-          <h1>InSAR Map</h1>
+          <h1>Browser-based inSAR Time Series Viewer</h1>
         </div>
-        <div class="side-item description">
+        <!--<div class="side-item description">
           <p>Description of inSAR map web application.</p>
-        </div>
+        </div>-->
+        
+
+<body>
+
+
+<div class=menu>
+<button class="accordion">What is the InSar Project?</button>
+<div class="panel">
+  <p>The InSar map is a product that allows users to view geographic data that spans within a 20 year time frame.The data presented consists of images recorded by satellites that keep track of ground elevation levels at various parts of the Earth. Users should be able to select a specific part of a generated map and show change in elevation data for that area. 
+</p>
+</div>
+
+<button class="accordion">Instructions</button>
+<div class="panel">
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</div>
+
+<button class="accordion">Creators</button>
+<div class="panel">
+  <p>
+        <strong>Client:</strong>Prof. Falk Amelung<br>
+      <strong>Designers and Programmers:</strong>
+          <ul> 
+          <li>Jeffrey Lin</li>
+          <li>Krystina Scott</li>
+          <li>Milen Buchillon-Triff</li>
+          <li>Sherman Hewitt</li>
+          <li>Xavier Aballa</li>
+          <li>Zishi Wu</li>
+          <li>Alfredo Terrero</li>
+          <li>Alex Jean-Baptiste</li>
+          </ul>
+    
+    </p>
+</div>
+  </div>  
+    <script>
+    
+    var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].onclick = function(){
+        this.classList.toggle("active");
+        this.nextElementSibling.classList.toggle("show");
+  }
+}
+    </script>
+
+
+          <h2>Elevations of selected area: </h2>
         <div class="side-item graph">
-          <canvas id='chart'></canvas>
-        </div>
+          </div>
         <div class="side-item upload-button">
-          <form method="post">
-            <label>Upload H5 file here: </label>
-            <br />
-            <input type="file" accept="h5" id="input">
-            <br />
-            <button type="submit">Upload</button>
-          </form>
+          <label>Upload H5 file here: </label></br>
+          <input type="file" accept="h5" id="input">
         </div>
       </div> <!-- End side-item-box -->
     </div> <!-- End side-bar -->
